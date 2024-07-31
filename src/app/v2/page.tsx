@@ -68,6 +68,8 @@ export default function SelectionPage() {
 	const [startTime, setStartTime] = useState("14:00"); // default to 2:00 PM
 	const [endTime, setEndTime] = useState("15:00"); // default to 3:00 PM
 	const [popupMessage, setPopupMessage] = useState("");
+	const [informedNames, setInformedNames] = useState([]);
+	const [uninformedNames, setUninformedNames] = useState(names);
 
 	useEffect(() => {
 		const loadCoordinators = async () => {
@@ -82,9 +84,29 @@ export default function SelectionPage() {
 		loadCoordinators();
 	}, []);
 
-	const filteredNames = names.filter((name) =>
-		name.toLowerCase().includes(searchTerm.toLowerCase())
-	);
+	useEffect(() => {
+		setUninformedNames(
+			names.filter((name) => 
+				!selectedNames.includes(name) && 
+				!informedNames.includes(name) &&
+				name.toLowerCase().includes(searchTerm.toLowerCase())
+			)
+		);
+	}, [selectedNames, informedNames, searchTerm]);
+
+	const moveToInformed = (name) => {
+		setInformedNames((prevInformed) => [...prevInformed, name]);
+		setUninformedNames((prevUninformed) => 
+			prevUninformed.filter((item) => item !== name)
+		);
+	};
+
+	const moveToUninformed = (name) => {
+		setInformedNames((prevInformed) => 
+			prevInformed.filter((item) => item !== name)
+		);
+		setUninformedNames((prevUninformed) => [...prevUninformed, name]);
+	};
 
 	const handleSelect = (name) => {
 		setSelectedNames((prevSelected) =>
@@ -146,10 +168,16 @@ Attendees 🟢🟢🟢
 ${selectedNames.map((name) => `✅ ${name}`).join("\n")}
 
 Absentees 🔴🔴🔴
-${filteredNames
+${uninformedNames
 	.filter((name) => !selectedNames.includes(name))
 	.map((name) => `🔴 ${name}`)
 	.join("\n")}
+
+Informed:
+${informedNames.map((name) => `✅ ${name}`).join("\n")}
+
+Uninformed:
+${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
 
 🔗 tldv link: ${tldvLink}
 	`;
@@ -157,13 +185,13 @@ ${filteredNames
 
 	const generateReport = () => {
 		return (
-			<div className="border rounded p-4 min-h-[200px] dark:bg-gray-800 dark:border-gray-700">
+			<div className="border rounded p-4 min-h-[200px] bg-gray-50 dark:bg-gray-800 dark:border-gray-700 shadow-lg">
 				<p className="font-bold text-xl">*Communication Session Report*</p>
 				<p>➖➖➖➖➖➖➖➖➖➖➖➖➖</p>
 
 				<br />
 
-				<div>
+				<div className="space-y-2">
 					<p>
 						🖥 <span className="font-bold">BCR 64</span>
 					</p>
@@ -173,7 +201,7 @@ ${filteredNames
 							type="date"
 							value={date}
 							onChange={(e) => setDate(e.target.value)}
-							className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
+							className="border rounded p-1 w-full dark:bg-gray-700 dark:border-gray-600"
 						/>
 					</p>
 					<p>
@@ -185,7 +213,7 @@ ${filteredNames
 						<select
 							value={reportWriter}
 							onChange={(e) => setReportWriter(e.target.value)}
-							className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
+							className="border rounded p-1 w-full dark:bg-gray-700 dark:border-gray-600"
 						>
 							{names.map((name) => (
 								<option key={name} value={name}>
@@ -200,7 +228,7 @@ ${filteredNames
 							type="text"
 							value={activity}
 							onChange={(e) => setActivity(e.target.value)}
-							className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
+							className="border rounded p-1 w-full dark:bg-gray-700 dark:border-gray-600"
 						/>
 					</p>
 					<p>Session Timing:</p>
@@ -210,7 +238,7 @@ ${filteredNames
 							type="text"
 							value={formatTime(startTime)}
 							onChange={(e) => setStartTime(parseTime(e.target.value))}
-							className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
+							className="border rounded p-1 dark:bg-gray-700 dark:border-gray-600"
 						/>
 					</p>
 					<p>
@@ -219,154 +247,177 @@ ${filteredNames
 							type="text"
 							value={formatTime(endTime)}
 							onChange={(e) => setEndTime(parseTime(e.target.value))}
-							className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
+							className="border rounded p-1 dark:bg-gray-700 dark:border-gray-600"
+						/>
+					</p>
+					<p>
+						Objective:{" "}
+						<input
+							type="text"
+							value={objective}
+							onChange={(e) => setObjective(e.target.value)}
+							className="border rounded p-1 w-full dark:bg-gray-700 dark:border-gray-600"
+						/>
+					</p>
+					<p>
+						Additional notes:{" "}
+						<input
+							type="text"
+							value={customText}
+							onChange={(e) => setCustomText(e.target.value)}
+							className="border rounded p-1 w-full dark:bg-gray-700 dark:border-gray-600"
+						/>
+					</p>
+					<p>
+						🔗 tldv link:{" "}
+						<input
+							type="text"
+							value={tldvLink}
+							onChange={(e) => setTldvLink(e.target.value)}
+							className="border rounded p-1 w-full dark:bg-gray-700 dark:border-gray-600"
 						/>
 					</p>
 				</div>
 
 				<br />
-				<br />
 
-				<p>
-					Objective:{" "}
-					<input
-						type="text"
-						value={objective}
-						onChange={(e) => setObjective(e.target.value)}
-						className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
-					/>
-				</p>
-
-				<textarea
-					value={customText}
-					onChange={(e) => setCustomText(e.target.value)}
-					className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-700"
-					rows="4"
-				/>
-
-				<br />
-				<br />
-
-				<p>Attendees 🟢🟢🟢</p>
-				<br />
-				{selectedNames.map((name) => (
-					<p key={name}>✅ {name}</p>
-				))}
-
-				<br />
-				<br />
-
-				<p>Absentees 🔴🔴🔴</p>
-				<br />
-				{filteredNames
-					.filter((name) => !selectedNames.includes(name))
-					.map((name) => (
-						<p key={name}>🔴 {name}</p>
+				<p className="text-green-600 font-bold text-lg">Attendees 🟢🟢🟢</p>
+				<ul className="list-disc list-inside mb-4">
+					{selectedNames.map((name) => (
+						<li key={name} className="ml-4">
+							✅ {name}
+						</li>
 					))}
-
-				<br />
-
-				<p>
-					🔗 tldv link :{" "}
-					<input
-						type="text"
-						value={tldvLink}
-						onChange={(e) => setTldvLink(e.target.value)}
-						className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
-					/>
-				</p>
+				</ul>
+				<p className="text-red-600 font-bold text-lg">Absentees 🔴🔴🔴</p>
+				<ul className="list-disc list-inside mb-4">
+					{uninformedNames
+						.filter((name) => !selectedNames.includes(name))
+						.map((name) => (
+							<li key={name} className="ml-4">
+								🔴 {name}
+							</li>
+						))}
+				</ul>
+				<p className="text-green-600 font-bold text-lg">Informed:</p>
+				<ul className="list-disc list-inside mb-4">
+					{informedNames.map((name) => (
+						<li key={name} className="ml-4">
+							✅ {name}
+						</li>
+					))}
+				</ul>
+				<p className="text-red-600 font-bold text-lg">Uninformed:</p>
+				<ul className="list-disc list-inside mb-4">
+					{uninformedNames.map((name) => (
+						<li key={name} className="ml-4">
+							🔴 {name}
+						</li>
+					))}
+				</ul>
 			</div>
 		);
 	};
 
 	return (
-		<div className="container mx-auto p-4 dark:bg-gray-900 dark:text-white">
-			<h1 className="text-2xl font-bold mb-6">Selection Page</h1>
-			<input
-				type="text"
-				placeholder="Search names..."
-				value={searchTerm}
-				onChange={(e) => setSearchTerm(e.target.value)}
-				className="w-full p-2 mb-4 border rounded dark:bg-gray-800 dark:border-gray-700"
-			/>
-			<div className="flex gap-6">
-				<div>
-					<h3 className="text-lg font-semibold mb-2">Unselected Names</h3>
-					<div className="border rounded p-4 min-h-[200px] dark:bg-gray-800 dark:border-gray-700">
-						{filteredNames
-							.filter((name) => !selectedNames.includes(name))
-							.map((name, index) => (
-								<div
-									key={index}
-									onClick={() => handleSelect(name)}
-									className="cursor-pointer p-2 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700"
-								>
-									{name}
-								</div>
-							))}
-					</div>
-					<button
-						onClick={() =>
-							copyToClipboard(
-								filteredNames
-									.filter((name) => !selectedNames.includes(name))
-									.join("\n")
-							)
-						}
-						aria-label="Copy selected names to clipboard"
-						className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
-					>
-						Copy Unselected Names
-					</button>
-				</div>
-				<div>
-					<h3 className="text-lg font-semibold mb-2">Selected Names</h3>
-					<div className="border rounded p-4 min-h-[200px] dark:bg-gray-800 dark:border-gray-700">
-						{selectedNames.map((name, index) => (
-							<div
-								key={index}
-								onClick={() => handleUnselect(name)}
-								className="cursor-pointer p-2 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700"
-							>
+		<div className="container mx-auto p-4">
+			<h1 className="text-3xl font-bold mb-4 text-center">Selection Page</h1>
+
+			{/* Search Bar */}
+			<div className="flex justify-center mb-4">
+				<input
+					type="text"
+					placeholder="Search names..."
+					value={searchTerm}
+					onChange={(e) => setSearchTerm(e.target.value)}
+					className="border rounded p-2 w-1/2 dark:bg-gray-700 dark:border-gray-600"
+				/>
+			</div>
+
+			<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+				{/* Uninformed Names */}
+				<div className="border rounded p-4 bg-white dark:bg-gray-800 dark:border-gray-700 shadow-lg">
+					<h2 className="text-xl font-bold mb-2 text-center">Uninformed Names</h2>
+					<ul className="list-disc list-inside">
+						{uninformedNames.map((name) => (
+							<li key={name} className="ml-4">
 								{name}
-							</div>
+								<button
+									onClick={() => moveToInformed(name)}
+									className="ml-2 text-blue-500 hover:text-blue-700"
+								>
+									Informed
+								</button>
+								<button
+									onClick={() => handleSelect(name)}
+									className="ml-2 text-green-500 hover:text-green-700"
+								>
+									Select
+								</button>
+							</li>
 						))}
-					</div>
-					<button
-						onClick={() => copyToClipboard(selectedNames.join("\n"))}
-						aria-label="Copy selected names to clipboard"
-						className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
-					>
-						Copy Selected Names
-					</button>
+					</ul>
+				</div>
+
+				{/* Informed Names */}
+				<div className="border rounded p-4 bg-white dark:bg-gray-800 dark:border-gray-700 shadow-lg">
+					<h2 className="text-xl font-bold mb-2 text-center">Informed Names</h2>
+					<ul className="list-disc list-inside">
+						{informedNames.map((name) => (
+							<li key={name} className="ml-4">
+								{name}
+								<button
+									onClick={() => moveToUninformed(name)}
+									className="ml-2 text-red-500 hover:text-red-700"
+								>
+									Uninformed
+								</button>
+							</li>
+						))}
+					</ul>
+				</div>
+
+				{/* Selected Names */}
+				<div className="border rounded p-4 bg-white dark:bg-gray-800 dark:border-gray-700 shadow-lg">
+					<h2 className="text-xl font-bold mb-2 text-center">Selected Names</h2>
+					<ul className="list-disc list-inside">
+						{selectedNames.map((name) => (
+							<li key={name} className="ml-4">
+								{name}
+								<button
+									onClick={() => handleUnselect(name)}
+									className="ml-2 text-red-500 hover:text-red-700"
+								>
+									Unselect
+								</button>
+							</li>
+						))}
+					</ul>
 					<button
 						onClick={handleClearSelection}
-						aria-label="Clear all selections"
-						className="mt-4 ml-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600"
+						className="bg-red-500 text-white py-1 px-2 rounded mt-4 w-full hover:bg-red-600"
 					>
 						Clear Selection
 					</button>
 				</div>
 			</div>
 
-			<div className="mt-10">
+			{/* Report Section */}
+			<div className="mt-8">{generateReport()}</div>
+
+			{/* Copy to Clipboard Button */}
+			<div className="flex justify-center mt-4">
 				<button
 					onClick={() => copyToClipboard(generatePlainTextReport())}
-					aria-label="Copy entire report to clipboard"
-					className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
+					className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
 				>
-					Copy Full Report
+					Copy Report to Clipboard
 				</button>
-			</div>
-
-			<div className="mt-10">
-				<h3 className="text-lg font-semibold mb-4">Report Preview</h3>
-				{generateReport()}
 			</div>
 
 			{/* Popup Message */}
 			{popupMessage && (
-				<div className="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+				<div className="fixed bottom-4 right-4 bg-green-500 text-white py-2 px-4 rounded shadow-lg">
 					{popupMessage}
 				</div>
 			)}
