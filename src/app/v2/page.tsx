@@ -86,23 +86,24 @@ export default function SelectionPage() {
 
 	useEffect(() => {
 		setUninformedNames(
-			names.filter((name) => 
-				!selectedNames.includes(name) && 
-				!informedNames.includes(name) &&
-				name.toLowerCase().includes(searchTerm.toLowerCase())
+			names.filter(
+				(name) =>
+					!selectedNames.includes(name) &&
+					!informedNames.includes(name) &&
+					name.toLowerCase().includes(searchTerm.toLowerCase())
 			)
 		);
 	}, [selectedNames, informedNames, searchTerm]);
 
 	const moveToInformed = (name) => {
 		setInformedNames((prevInformed) => [...prevInformed, name]);
-		setUninformedNames((prevUninformed) => 
+		setUninformedNames((prevUninformed) =>
 			prevUninformed.filter((item) => item !== name)
 		);
 	};
 
 	const moveToUninformed = (name) => {
-		setInformedNames((prevInformed) => 
+		setInformedNames((prevInformed) =>
 			prevInformed.filter((item) => item !== name)
 		);
 		setUninformedNames((prevUninformed) => [...prevUninformed, name]);
@@ -185,13 +186,13 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
 
 	const generateReport = () => {
 		return (
-			<div className="border rounded p-4 min-h-[200px] bg-gray-50 dark:bg-gray-800 dark:border-gray-700 shadow-lg">
+			<div className="border rounded p-4 min-h-[200px] dark:bg-gray-800 dark:border-gray-700">
 				<p className="font-bold text-xl">*Communication Session Report*</p>
 				<p>➖➖➖➖➖➖➖➖➖➖➖➖➖</p>
 
 				<br />
 
-				<div className="space-y-2">
+				<div>
 					<p>
 						🖥 <span className="font-bold">BCR 64</span>
 					</p>
@@ -201,7 +202,7 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
 							type="date"
 							value={date}
 							onChange={(e) => setDate(e.target.value)}
-							className="border rounded p-1 w-full dark:bg-gray-700 dark:border-gray-600"
+							className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
 						/>
 					</p>
 					<p>
@@ -213,7 +214,7 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
 						<select
 							value={reportWriter}
 							onChange={(e) => setReportWriter(e.target.value)}
-							className="border rounded p-1 w-full dark:bg-gray-700 dark:border-gray-600"
+							className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
 						>
 							{names.map((name) => (
 								<option key={name} value={name}>
@@ -228,9 +229,13 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
 							type="text"
 							value={activity}
 							onChange={(e) => setActivity(e.target.value)}
-							className="border rounded p-1 w-full dark:bg-gray-700 dark:border-gray-600"
+							className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
 						/>
 					</p>
+
+					<br />
+					<br />
+
 					<p>Session Timing:</p>
 					<p>
 						Start:{" "}
@@ -238,7 +243,7 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
 							type="text"
 							value={formatTime(startTime)}
 							onChange={(e) => setStartTime(parseTime(e.target.value))}
-							className="border rounded p-1 dark:bg-gray-700 dark:border-gray-600"
+							className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
 						/>
 					</p>
 					<p>
@@ -247,37 +252,34 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
 							type="text"
 							value={formatTime(endTime)}
 							onChange={(e) => setEndTime(parseTime(e.target.value))}
-							className="border rounded p-1 dark:bg-gray-700 dark:border-gray-600"
-						/>
-					</p>
-					<p>
-						Objective:{" "}
-						<input
-							type="text"
-							value={objective}
-							onChange={(e) => setObjective(e.target.value)}
-							className="border rounded p-1 w-full dark:bg-gray-700 dark:border-gray-600"
-						/>
-					</p>
-					<p>
-						Additional notes:{" "}
-						<input
-							type="text"
-							value={customText}
-							onChange={(e) => setCustomText(e.target.value)}
-							className="border rounded p-1 w-full dark:bg-gray-700 dark:border-gray-600"
-						/>
-					</p>
-					<p>
-						🔗 tldv link:{" "}
-						<input
-							type="text"
-							value={tldvLink}
-							onChange={(e) => setTldvLink(e.target.value)}
-							className="border rounded p-1 w-full dark:bg-gray-700 dark:border-gray-600"
+							className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
 						/>
 					</p>
 				</div>
+
+				<br />
+				<br />
+
+				<p>
+					Objective:{" "}
+					<input
+						type="text"
+						value={objective}
+						onChange={(e) => setObjective(e.target.value)}
+						className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
+					/>
+				</p>
+				<p>
+					Additional notes:{" "}
+					<textarea
+						value={customText}
+						onChange={(e) => setCustomText(e.target.value)}
+						className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-700"
+						rows="4"
+					/>
+				</p>
+
+				<br />
 
 				<br />
 
@@ -291,7 +293,7 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
 				</ul>
 				<p className="text-red-600 font-bold text-lg">Absentees 🔴🔴🔴</p>
 				<ul className="list-disc list-inside mb-4">
-					{uninformedNames
+					{names
 						.filter((name) => !selectedNames.includes(name))
 						.map((name) => (
 							<li key={name} className="ml-4">
@@ -337,7 +339,9 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 				{/* Uninformed Names */}
 				<div className="border rounded p-4 bg-white dark:bg-gray-800 dark:border-gray-700 shadow-lg">
-					<h2 className="text-xl font-bold mb-2 text-center">Uninformed Names</h2>
+					<h2 className="text-xl font-bold mb-2 text-center">
+						Uninformed Names
+					</h2>
 					<ul className="list-disc list-inside">
 						{uninformedNames.map((name) => (
 							<li key={name} className="ml-4">
@@ -361,7 +365,9 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
 
 				{/* Informed Names */}
 				<div className="border rounded p-4 bg-white dark:bg-gray-800 dark:border-gray-700 shadow-lg">
-					<h2 className="text-xl font-bold mb-2 text-center">Informed Names</h2>
+					<h2 className="text-xl font-bold mb-2 text-center">
+						Informed Names
+					</h2>
 					<ul className="list-disc list-inside">
 						{informedNames.map((name) => (
 							<li key={name} className="ml-4">
@@ -379,7 +385,9 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
 
 				{/* Selected Names */}
 				<div className="border rounded p-4 bg-white dark:bg-gray-800 dark:border-gray-700 shadow-lg">
-					<h2 className="text-xl font-bold mb-2 text-center">Selected Names</h2>
+					<h2 className="text-xl font-bold mb-2 text-center">
+						Selected Names
+					</h2>
 					<ul className="list-disc list-inside">
 						{selectedNames.map((name) => (
 							<li key={name} className="ml-4">
