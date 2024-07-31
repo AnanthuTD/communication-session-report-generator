@@ -1,113 +1,375 @@
-import Image from "next/image";
+"use client";
+import { useState, useEffect } from "react";
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+const names = [
+	"ANEENA THASNEEM C A",
+	"Abhilash B R",
+	"Ahamed irfan",
+	"Amal Ramakrishnan",
+	"Ananthu T D",
+	"Aswanth P",
+	"Aswin K",
+	"Ayshath mezna A",
+	"Diyana sherin km",
+	"Farhana sherin oc",
+	"Husna K",
+	"Jayasree",
+	"Joel Thomas",
+	"Krishna Priya K",
+	"Mariyammath Thabsira G",
+	"Masroora k",
+	"Muhammed sinan",
+	"Nasrin Gafoor KP",
+	"Preethi Sreejit",
+	"Rejina K K",
+	"Rento Augustine",
+	"SAHLA M",
+	"Sarath C R",
+	"Shanid V V",
+	"Sharmi Rajendran",
+	"Subhana Thasni TP",
+	"Thanveer",
+];
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+const defaultCoordinators = ["Muhammed Sinan", "Aswin K"];
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+const fetchCoordinators = async () => {
+	// Replace with actual API call
+	return ["Muhammed Sinan", "Aswin K"];
+};
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+const formatTime = (time) => {
+	const [hours, minutes] = time.split(":").map(Number);
+	const ampm = hours >= 12 ? "PM" : "AM";
+	const hour = hours % 12 || 12;
+	return `${hour}:${minutes < 10 ? `0${minutes}` : minutes} ${ampm}`;
+};
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+const parseTime = (time) => {
+	const [timePart, ampm] = time.split(" ");
+	let [hours, minutes] = timePart.split(":").map(Number);
+	if (ampm === "PM" && hours < 12) hours += 12;
+	if (ampm === "AM" && hours === 12) hours = 0;
+	return `${hours.toString().padStart(2, "0")}:${minutes
+		.toString()
+		.padStart(2, "0")}`;
+};
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+export default function SelectionPage() {
+	const [searchTerm, setSearchTerm] = useState("");
+	const [selectedNames, setSelectedNames] = useState([]);
+	const [reportWriter, setReportWriter] = useState("Ananthu T D");
+	const [date, setDate] = useState(new Date().toISOString().split("T")[0]); // defaults to current date
+	const [objective, setObjective] = useState("Orientation");
+	const [activity, setActivity] = useState("Orientation");
+	const [tldvLink, setTldvLink] = useState("");
+	const [customText, setCustomText] = useState("");
+	const [coordinators, setCoordinators] = useState(defaultCoordinators);
+	const [startTime, setStartTime] = useState("14:00"); // default to 2:00 PM
+	const [endTime, setEndTime] = useState("15:00"); // default to 3:00 PM
+	const [popupMessage, setPopupMessage] = useState("");
+
+	useEffect(() => {
+		const loadCoordinators = async () => {
+			try {
+				const fetchedCoordinators = await fetchCoordinators();
+				setCoordinators(fetchedCoordinators);
+			} catch (error) {
+				console.error("Failed to fetch coordinators", error);
+			}
+		};
+
+		loadCoordinators();
+	}, []);
+
+	const filteredNames = names.filter((name) =>
+		name.toLowerCase().includes(searchTerm.toLowerCase())
+	);
+
+	const handleSelect = (name) => {
+		setSelectedNames((prevSelected) =>
+			prevSelected.includes(name) ? prevSelected : [...prevSelected, name]
+		);
+	};
+
+	const handleUnselect = (name) => {
+		setSelectedNames((prevSelected) =>
+			prevSelected.filter((item) => item !== name)
+		);
+	};
+
+	const handleClearSelection = () => {
+		setSelectedNames([]);
+	};
+
+	const showPopup = (message) => {
+		setPopupMessage(message);
+		setTimeout(() => setPopupMessage(""), 2000); // Hide message after 2 seconds
+	};
+
+	const copyToClipboard = (text) => {
+		navigator.clipboard
+			.writeText(text)
+			.then(() => showPopup("Copied to clipboard"))
+			.catch((error) =>
+				console.error("Failed to copy text to clipboard", error)
+			);
+	};
+
+	const generatePlainTextReport = () => {
+		return `
+*Communication Session Report*
+
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+
+🖥 BCR 64
+
+📆 Date: ${date}
+
+👩‍💻 Trainer: Divya Bharathi
+
+👨🏻‍💼 Coordinator: ${coordinators.join(", ")}
+
+📝 Report by: ${reportWriter}
+
+📑 Activity: ${activity}
+
+Session Timing:
+Start: ${formatTime(startTime)}
+End: ${formatTime(endTime)}
+
+Objective: ${objective}
+
+${customText}
+
+Attendees 🟢🟢🟢
+${selectedNames.map((name) => `✅ ${name}`).join("\n")}
+
+Absentees 🔴🔴🔴
+${filteredNames
+	.filter((name) => !selectedNames.includes(name))
+	.map((name) => `🔴 ${name}`)
+	.join("\n")}
+
+🔗 tldv link: ${tldvLink}
+	`;
+	};
+
+	const generateReport = () => {
+		return (
+			<div className="border rounded p-4 min-h-[200px] dark:bg-gray-800 dark:border-gray-700">
+				<p className="font-bold text-xl">*Communication Session Report*</p>
+				<p>➖➖➖➖➖➖➖➖➖➖➖➖➖</p>
+
+				<br />
+
+				<div>
+					<p>
+						🖥 <span className="font-bold">BCR 64</span>
+					</p>
+					<p>
+						📆{" "}
+						<input
+							type="date"
+							value={date}
+							onChange={(e) => setDate(e.target.value)}
+							className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
+						/>
+					</p>
+					<p>
+						👩‍💻 Trainer: <span className="font-bold">Divya Bharathi</span>
+					</p>
+					<p>👨🏻‍💼 Coordinator: {coordinators.join(", ")}</p>
+					<p>
+						📝 Report by:{" "}
+						<select
+							value={reportWriter}
+							onChange={(e) => setReportWriter(e.target.value)}
+							className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
+						>
+							{names.map((name) => (
+								<option key={name} value={name}>
+									{name}
+								</option>
+							))}
+						</select>
+					</p>
+					<p>
+						📑 Activity:{" "}
+						<input
+							type="text"
+							value={activity}
+							onChange={(e) => setActivity(e.target.value)}
+							className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
+						/>
+					</p>
+					<p>Session Timing:</p>
+					<p>
+						Start:{" "}
+						<input
+							type="text"
+							value={formatTime(startTime)}
+							onChange={(e) => setStartTime(parseTime(e.target.value))}
+							className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
+						/>
+					</p>
+					<p>
+						End:{" "}
+						<input
+							type="text"
+							value={formatTime(endTime)}
+							onChange={(e) => setEndTime(parseTime(e.target.value))}
+							className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
+						/>
+					</p>
+				</div>
+
+				<br />
+				<br />
+
+				<p>
+					Objective:{" "}
+					<input
+						type="text"
+						value={objective}
+						onChange={(e) => setObjective(e.target.value)}
+						className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
+					/>
+				</p>
+
+				<textarea
+					value={customText}
+					onChange={(e) => setCustomText(e.target.value)}
+					className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-700"
+					rows="4"
+				/>
+
+				<br />
+				<br />
+
+				<p>Attendees 🟢🟢🟢</p>
+				<br />
+				{selectedNames.map((name) => (
+					<p key={name}>✅ {name}</p>
+				))}
+
+				<br />
+				<br />
+
+				<p>Absentees 🔴🔴🔴</p>
+				<br />
+				{filteredNames
+					.filter((name) => !selectedNames.includes(name))
+					.map((name) => (
+						<p key={name}>🔴 {name}</p>
+					))}
+
+				<br />
+
+				<p>
+					🔗 tldv link :{" "}
+					<input
+						type="text"
+						value={tldvLink}
+						onChange={(e) => setTldvLink(e.target.value)}
+						className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
+					/>
+				</p>
+			</div>
+		);
+	};
+
+	return (
+		<div className="container mx-auto p-4 dark:bg-gray-900 dark:text-white">
+			<h1 className="text-2xl font-bold mb-6">Selection Page</h1>
+			<input
+				type="text"
+				placeholder="Search names..."
+				value={searchTerm}
+				onChange={(e) => setSearchTerm(e.target.value)}
+				className="w-full p-2 mb-4 border rounded dark:bg-gray-800 dark:border-gray-700"
+			/>
+			<div className="flex gap-6">
+				<div>
+					<h3 className="text-lg font-semibold mb-2">Unselected Names</h3>
+					<div className="border rounded p-4 min-h-[200px] dark:bg-gray-800 dark:border-gray-700">
+						{filteredNames
+							.filter((name) => !selectedNames.includes(name))
+							.map((name, index) => (
+								<div
+									key={index}
+									onClick={() => handleSelect(name)}
+									className="cursor-pointer p-2 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700"
+								>
+									{name}
+								</div>
+							))}
+					</div>
+					<button
+						onClick={() =>
+							copyToClipboard(
+								filteredNames
+									.filter((name) => !selectedNames.includes(name))
+									.join("\n")
+							)
+						}
+						aria-label="Copy selected names to clipboard"
+						className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+					>
+						Copy Unselected Names
+					</button>
+				</div>
+				<div>
+					<h3 className="text-lg font-semibold mb-2">Selected Names</h3>
+					<div className="border rounded p-4 min-h-[200px] dark:bg-gray-800 dark:border-gray-700">
+						{selectedNames.map((name, index) => (
+							<div
+								key={index}
+								onClick={() => handleUnselect(name)}
+								className="cursor-pointer p-2 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700"
+							>
+								{name}
+							</div>
+						))}
+					</div>
+					<button
+						onClick={() => copyToClipboard(selectedNames.join("\n"))}
+						aria-label="Copy selected names to clipboard"
+						className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+					>
+						Copy Selected Names
+					</button>
+					<button
+						onClick={handleClearSelection}
+						aria-label="Clear all selections"
+						className="mt-4 ml-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600"
+					>
+						Clear Selection
+					</button>
+				</div>
+			</div>
+
+			<div className="mt-10">
+				<button
+					onClick={() => copyToClipboard(generatePlainTextReport())}
+					aria-label="Copy entire report to clipboard"
+					className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
+				>
+					Copy Full Report
+				</button>
+			</div>
+
+			<div className="mt-10">
+				<h3 className="text-lg font-semibold mb-4">Report Preview</h3>
+				{generateReport()}
+			</div>
+
+			{/* Popup Message */}
+			{popupMessage && (
+				<div className="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+					{popupMessage}
+				</div>
+			)}
+		</div>
+	);
 }
