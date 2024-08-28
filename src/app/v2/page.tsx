@@ -19,9 +19,9 @@ const names = [
 	"Mariyammath Thabsira G",
 	"Masroora k",
 	"Muhammed sinan",
+	"Muhasii",
 	"Nasrin Gafoor KP",
 	"Preethi Sreejit",
-	"Rejina K K",
 	"Rento Augustine",
 	"SAHLA M",
 	"Sarath C R",
@@ -365,9 +365,7 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
 
 				{/* Informed Names */}
 				<div className="border rounded p-4 bg-white dark:bg-gray-800 dark:border-gray-700 shadow-lg">
-					<h2 className="text-xl font-bold mb-2 text-center">
-						Informed Names
-					</h2>
+					<h2 className="text-xl font-bold mb-2 text-center">Informed Names</h2>
 					<ul className="list-disc list-inside">
 						{informedNames.map((name) => (
 							<li key={name} className="ml-4">
@@ -385,9 +383,7 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
 
 				{/* Selected Names */}
 				<div className="border rounded p-4 bg-white dark:bg-gray-800 dark:border-gray-700 shadow-lg">
-					<h2 className="text-xl font-bold mb-2 text-center">
-						Selected Names
-					</h2>
+					<h2 className="text-xl font-bold mb-2 text-center">Selected Names</h2>
 					<ul className="list-disc list-inside">
 						{selectedNames.map((name) => (
 							<li key={name} className="ml-4">
