@@ -1,41 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
 
-const names = [
-	"ANEENA THASNEEM C A",
-	"Abhilash B R",
-	"Ahamed irfan",
-	"Amal Ramakrishnan",
-	"Ananthu T D",
-	"Aswanth P",
-	"Aswin K",
-	"Ayshath mezna A",
-	"Diyana sherin km",
-	"Farhana sherin oc",
-	"Husna K",
-	"Jayasree",
-	"Joel Thomas",
-	"Krishna Priya K",
-	"Mariyammath Thabsira G",
-	"Masroora k",
-	"Muhammed sinan",
-	"Muhasii",
-	"Nasrin Gafoor KP",
-	"Preethi Sreejit",
-	"Rento Augustine",
-	"SAHLA M",
-	"Sarath C R",
-	"Shanid V V",
-	"Sharmi Rajendran",
-	"Subhana Thasni TP",
-	"Thanveer",
-];
+const names =['ANEENA THASNEEM C A', 'Abhilash B R', 'Ahamed irfan', 'Amal Ramakrishnan', 'Ananthu T D', 'Arun Thomas', 'Aswanth P', 'Aswin K', 'Ayshath mezna A', 'Deva', 'Diyana sherin km', 'Farhana sherin oc', 'Husna K', 'Jayasree', 'Joel Thomas', 'Krishna Priya K', 'Mariyammath Thabsira G', 'Masroora k', 'Muhammed Uwais', 'Muhammed sinan', 'Muhasii', 'Nasrin Gafoor KP', 'Preethi Sreejit', 'Rento Augustine', 'SAHLA M', 'Sarath C R', 'Shanid V V', 'Sharmi Rajendran', 'Shibila', 'Subhana Thasni TP', 'Swathish S', 'Thanveer']
 
-const defaultCoordinators = ["Muhammed Sinan", "Aswin K"];
+const defaultCoordinators = ["Krishna Priya", "Aswanth P"];
 
 const fetchCoordinators = async () => {
 	// Replace with actual API call
-	return ["Muhammed Sinan", "Aswin K"];
+	return ["Krishna Priya", "Aswanth P"];
 };
 
 const formatTime = (time) => {
