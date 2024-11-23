@@ -1,6 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 
+function sort(array: string[] = []) {
+  return array.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+}
+
 const names = [
   "Abhilash B R",
   "Ahamed Irfan",
@@ -34,6 +38,8 @@ const names = [
   "Thanveer",
   "Vishnu",
 ];
+
+sort(names)
 
 const defaultCoordinators = ["Rento", "Masroora"];
 
@@ -170,18 +176,18 @@ Objective: ${objective}
 ${customText}
 
 Attendees 🟢🟢🟢
-${selectedNames.map((name) => `✅ ${name}`).join("\n")}
+${sort(selectedNames).map((name) => `✅ ${name}`).join("\n")}
 
 Absentees 🔴🔴🔴
-${[...uninformedNames, ...informedNames]
+${sort([...uninformedNames, ...informedNames])
   .map((name) => `🔴 ${name}`)
   .join("\n")}
 
 Informed:
-${informedNames.map((name) => `✅ ${name}`).join("\n")}
+${sort(informedNames).map((name) => `✅ ${name}`).join("\n")}
 
 Uninformed:
-${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
+${sort(uninformedNames).map((name) => `🔴 ${name}`).join("\n")}
 
 🔗 tldv link: ${tldvLink}
 	`;
@@ -219,7 +225,7 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
               onChange={(e) => setReportWriter(e.target.value)}
               className="border rounded p-1 dark:bg-gray-800 dark:border-gray-700"
             >
-              {names.map((name) => (
+              {sort(names).map((name) => (
                 <option key={name} value={name}>
                   {name}
                 </option>
@@ -288,7 +294,7 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
 
         <p className="text-green-600 font-bold text-lg">Attendees 🟢🟢🟢</p>
         <ul className="list-disc list-inside mb-4">
-          {selectedNames.map((name) => (
+          {sort(selectedNames).map((name) => (
             <li key={name} className="ml-4">
               ✅ {name}
             </li>
@@ -296,7 +302,7 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
         </ul>
         <p className="text-red-600 font-bold text-lg">Absentees 🔴🔴🔴</p>
         <ul className="list-disc list-inside mb-4">
-          {names
+          {sort(names)
             .filter((name) => !selectedNames.includes(name))
             .map((name) => (
               <li key={name} className="ml-4">
@@ -306,7 +312,7 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
         </ul>
         <p className="text-green-600 font-bold text-lg">Informed:</p>
         <ul className="list-disc list-inside mb-4">
-          {informedNames.map((name) => (
+          {sort(informedNames).map((name) => (
             <li key={name} className="ml-4">
               ✅ {name}
             </li>
@@ -314,7 +320,7 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
         </ul>
         <p className="text-red-600 font-bold text-lg">Uninformed:</p>
         <ul className="list-disc list-inside mb-4">
-          {uninformedNames.map((name) => (
+          {sort(uninformedNames).map((name) => (
             <li key={name} className="ml-4">
               🔴 {name}
             </li>
@@ -346,7 +352,7 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
             Uninformed Names
           </h2>
           <ul className="list-disc list-inside">
-            {uninformedNames.map((name) => (
+            {sort(uninformedNames).map((name) => (
               <li key={name} className="ml-4">
                 {name}
                 <button
@@ -370,7 +376,7 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
         <div className="border rounded p-4 bg-white dark:bg-gray-800 dark:border-gray-700 shadow-lg">
           <h2 className="text-xl font-bold mb-2 text-center">Informed Names</h2>
           <ul className="list-disc list-inside">
-            {informedNames.map((name) => (
+            {sort(informedNames).map((name) => (
               <li key={name} className="ml-4">
                 {name}
                 <button
@@ -388,7 +394,7 @@ ${uninformedNames.map((name) => `🔴 ${name}`).join("\n")}
         <div className="border rounded p-4 bg-white dark:bg-gray-800 dark:border-gray-700 shadow-lg">
           <h2 className="text-xl font-bold mb-2 text-center">Selected Names</h2>
           <ul className="list-disc list-inside">
-            {selectedNames.map((name) => (
+            {sort(selectedNames).map((name) => (
               <li key={name} className="ml-4">
                 {name}
                 <button
