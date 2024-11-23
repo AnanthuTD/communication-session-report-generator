@@ -23,7 +23,6 @@ const names = [
   "Muhammed Sinan",
   "Muhammed Uwais",
   "Nasrin Gafoor K P",
-  "Pious Edwin BCR57",
   "Preethi Sreejith",
   "Rento Augustine",
   "Sahla M",
@@ -33,6 +32,7 @@ const names = [
   "Swathish",
   "Thanveer",
   "Vishnu",
+  "Rejina",
 ];
 
 function sort(array: string[] = []) {
