@@ -173,8 +173,7 @@ Attendees 🟢🟢🟢
 ${selectedNames.map((name) => `✅ ${name}`).join("\n")}
 
 Absentees 🔴🔴🔴
-${uninformedNames
-  .filter((name) => !selectedNames.includes(name))
+${[...uninformedNames, ...informedNames]
   .map((name) => `🔴 ${name}`)
   .join("\n")}
 
