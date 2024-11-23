@@ -39,7 +39,7 @@ const names = [
   "Vishnu",
 ];
 
-sort(names)
+sort(names);
 
 const defaultCoordinators = ["Rento", "Masroora"];
 
@@ -176,7 +176,9 @@ Objective: ${objective}
 ${customText}
 
 Attendees 🟢🟢🟢
-${sort(selectedNames).map((name) => `✅ ${name}`).join("\n")}
+${sort(selectedNames)
+  .map((name) => `✅ ${name}`)
+  .join("\n")}
 
 Absentees 🔴🔴🔴
 ${sort([...uninformedNames, ...informedNames])
@@ -184,10 +186,14 @@ ${sort([...uninformedNames, ...informedNames])
   .join("\n")}
 
 Informed:
-${sort(informedNames).map((name) => `✅ ${name}`).join("\n")}
+${sort(informedNames)
+  .map((name) => `✅ ${name}`)
+  .join("\n")}
 
 Uninformed:
-${sort(uninformedNames).map((name) => `🔴 ${name}`).join("\n")}
+${sort(uninformedNames)
+  .map((name) => `🔴 ${name}`)
+  .join("\n")}
 
 🔗 tldv link: ${tldvLink}
 	`;
@@ -332,7 +338,9 @@ ${sort(uninformedNames).map((name) => `🔴 ${name}`).join("\n")}
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4 text-center">Selection Page</h1>
+      <h1 className="text-3xl font-bold mb-4 text-center">
+        Communication Session Report Page
+      </h1>
 
       {/* Search Bar */}
       <div className="flex justify-center mb-4">
