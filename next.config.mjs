@@ -12,6 +12,11 @@ const nextConfig = {
 		// !! WARN !!
 		ignoreBuildErrors: true,
 	},
+	experimental: {
+    outputFileTracingIncludes: {
+      '/src/app/actions/actions': ['./data/**/*'],
+    },
+  },
 };
 
 export default nextConfig;
