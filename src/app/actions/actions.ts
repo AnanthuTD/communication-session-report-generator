@@ -8,7 +8,7 @@ console.log(filePath);
 
 async function check(){
   try {
-    const postsDirectory = path.join(process.cwd(), 'data')
+    const postsDirectory = path.join(process.cwd())
     const filenames = fs.readdirSync(postsDirectory);
   
     console.log('asfdsdf',postsDirectory, filenames)
