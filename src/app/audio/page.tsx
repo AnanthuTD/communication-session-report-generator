@@ -1,86 +1,67 @@
 "use client";
 import { useState, useEffect } from "react";
-
-const names = [
-  "Abhilash B R",
-  "Ahamed Irfan",
-  "Amal Ramakrishnan",
-  "Ananthu TD",
-  "Aneena Thasneem C A",
-  "Anas A M",
-  "Arun Thomas",
-  "Aswanth P",
-  "Aswin K",
-  "Devaraj",
-  "Diyana Sherin K M",
-  "Farhana Sherin O C",
-  "Husna K",
-  "Jayashree",
-  "Joel Thomas",
-  "Krishna Priya K",
-  "Mariyammath Thabsira G",
-  "Masroora K",
-  "Muhammed Sinan",
-  "Muhammed Uwais",
-  "Nasrin Gafoor K P",
-  "Preethi Sreejith",
-  "Rento Augustine",
-  "Sahla M",
-  "Shanid V V",
-  "Shibla P",
-  "Subhana Thasni TP",
-  "Swathish",
-  "Thanveer",
-  "Vishnu",
-  "Rejina",
-];
+import { getMembers } from "../actions/actions";
 
 function sort(array: string[] = []) {
   return array.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 }
 
-const defaultCoordinators = ["Rento", "Masroora"];
-
-const fetchCoordinators = async () => {
-  // Replace with actual API call
-  return ["Rento", "Masroora"];
-};
-
 export default function SelectionPage() {
+  const [names, setNames] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   const [reportWriter, setReportWriter] = useState("Ananthu T D");
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]); // defaults to current date
-  const [topic, setTopic] = useState("Orientation");
-  const [customText, setCustomText] = useState("");
-  const [coordinators, setCoordinators] = useState(defaultCoordinators);
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [topic, setTopic] = useState("Topic");
+  const [coordinators, setCoordinators] = useState(["Rento", "Masroora"]);
   const [popupMessage, setPopupMessage] = useState("");
   const [informedNames, setInformedNames] = useState<string[]>([]);
-  const [uninformedNames, setUninformedNames] = useState<string[]>(names);
+  const [uninformedNames, setUninformedNames] = useState<string[]>([]);
+
+  const fetchMembers = async () => {
+    const data = await getMembers();
+    const a = data
+      .filter(
+        (member) => !member.OptOutCommunication && member.Role === "member"
+      )
+      .map((member) => member.Name);
+    return a;
+  };
+
+  const fetchCoordinators = async () => {
+    const data = await getMembers();
+    const a = data
+      .filter(
+        (member) => member.Coordinator
+      )
+      .map((member) => member.Name);
+    return a;
+  };
 
   useEffect(() => {
-    const loadCoordinators = async () => {
+    const loadNamesAndCoordinators = async () => {
       try {
+        const fetchedNames = await fetchMembers();
         const fetchedCoordinators = await fetchCoordinators();
+        setNames(fetchedNames || []);
         setCoordinators(fetchedCoordinators);
       } catch (error) {
-        console.error("Failed to fetch coordinators", error);
+        console.error("Failed to fetch data", error);
       }
     };
 
-    loadCoordinators();
+    loadNamesAndCoordinators();
   }, []);
 
   useEffect(() => {
-    setUninformedNames(
-      names.filter(
-        (name) =>
-          !selectedNames.includes(name) &&
-          !informedNames.includes(name) &&
-          name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+    const b = names.filter(
+      (name) =>
+        !selectedNames.includes(name) &&
+        !informedNames.includes(name) &&
+        name?.toLowerCase().includes(searchTerm?.toLowerCase())
     );
-  }, [selectedNames, informedNames, searchTerm]);
+    setUninformedNames(b);
+  }, [names, selectedNames, informedNames, searchTerm]);
 
   const moveToInformed = (name: string) => {
     setInformedNames((prevInformed) => sort([...prevInformed, name]));
@@ -112,12 +93,12 @@ export default function SelectionPage() {
     setSelectedNames([]);
   };
 
-  const showPopup = (message) => {
+  const showPopup = (message: string) => {
     setPopupMessage(message);
     setTimeout(() => setPopupMessage(""), 2000); // Hide message after 2 seconds
   };
 
-  const copyToClipboard = (text) => {
+  const copyToClipboard = (text: string) => {
     navigator.clipboard
       .writeText(text)
       .then(() => showPopup("Copied to clipboard"))
@@ -143,8 +124,6 @@ export default function SelectionPage() {
 📝 Report by: ${reportWriter}
 
 📑 Topic: ${topic}
-
-${customText}
 
 Submitted 🟢🟢🟢
 ${sort(selectedNames)
@@ -221,20 +200,6 @@ ${sort(uninformedNames)
         </div>
 
         <br />
-        <br />
-
-        <p>
-          Additional notes:{" "}
-          <textarea
-            value={customText}
-            onChange={(e) => setCustomText(e.target.value)}
-            className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-700"
-            rows={4}
-          />
-        </p>
-
-        <br />
-
         <br />
 
         <p className="text-green-600 font-bold text-lg">Submitted 🟢🟢🟢</p>
