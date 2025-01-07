@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { parse, unparse } from 'papaparse';
 
-const filePath = path.join(process.cwd(), 'data', 'members.csv');
+const filePath = path.join(process.cwd(), 'public', 'members.csv');
 console.log(filePath);
 
 // Define the structure of a member
