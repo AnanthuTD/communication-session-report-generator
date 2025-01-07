@@ -45,7 +45,7 @@ export const verifyToken = async (token: string) => {
     const { payload } = await jwtVerify(token, JWT_SECRET);
     return { valid: true, payload };
   } catch (error) {
-    console.error('JWT verification failed:', error);
+    // console.error('JWT verification failed:', error);
     return { valid: false, error: 'Invalid token' };
   }
 };

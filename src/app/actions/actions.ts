@@ -6,6 +6,14 @@ import { parse, unparse } from 'papaparse';
 const filePath = path.join(process.cwd(), 'public', 'members.csv');
 console.log(filePath);
 
+async function check(){
+  const postsDirectory = path.join(process.cwd(), 'data')
+  const filenames = fs.readdirSync(postsDirectory);
+
+  console.log('asfdsdf',postsDirectory, filenames)
+}
+
+
 // Define the structure of a member
 interface Member {
   Name: string;
@@ -17,6 +25,8 @@ interface Member {
 
 export const getMembers = async (): Promise<Member[]> => {
   try {
+check()
+
     const csvData = fs.readFileSync(filePath, 'utf-8');
     const { data } = parse(csvData, { header: true });
     
