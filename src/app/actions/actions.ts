@@ -7,10 +7,15 @@ const filePath = path.join(process.cwd(), 'public', 'members.csv');
 console.log(filePath);
 
 async function check(){
-  const postsDirectory = path.join(process.cwd(), 'data')
-  const filenames = fs.readdirSync(postsDirectory);
-
-  console.log('asfdsdf',postsDirectory, filenames)
+  try {
+    const postsDirectory = path.join(process.cwd(), 'data')
+    const filenames = fs.readdirSync(postsDirectory);
+  
+    console.log('asfdsdf',postsDirectory, filenames)
+    
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 
