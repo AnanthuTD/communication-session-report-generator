@@ -6,6 +6,24 @@ import { parse, unparse } from 'papaparse';
 const filePath = path.join(process.cwd(), 'public', 'members.csv');
 console.log(filePath);
 
+// Function to ensure the CSV file exists and is "touched" (read)
+async function touchFile() {
+  try {
+    // Check if the file exists, and if not, create it
+    if (!fs.existsSync(filePath)) {
+      console.log("File doesn't exist, creating...");
+      fs.writeFileSync(filePath, "Name,Role,OptOutAudio,OptOutCommunication\n", 'utf-8');
+    } else {
+      console.log("File exists, touching...");
+      fs.readFileSync(filePath, 'utf-8');  // Simply read the file to ensure it is included
+    }
+  } catch (error) {
+    console.error("Error touching the file:", error);
+  }
+}
+
+touchFile();
+
 async function check(){
   try {
     const postsDirectory = path.join(process.cwd())
