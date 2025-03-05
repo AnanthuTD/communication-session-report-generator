@@ -22,7 +22,7 @@ export default function SelectionPage() {
     const data = await getMembers();
     const a = data
       .filter(
-        (member) => !member.OptOutCommunication && member.Role === "member"
+        (member) => !member.OptOutAudio && member.Role === "member"
       )
       .map((member) => member.Name);
     return a;
