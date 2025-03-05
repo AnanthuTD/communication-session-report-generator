@@ -1,36 +1,36 @@
-"Name","Role","OptOutAudio","OptOutCommunication","Coordinator"
-"Abhilash B R","","false","false","false"
-"Amal Ramakrishnan","","false","false","false"
-"Ananthu TD","","false","false","false"
-"Anas A M","","false","false","false"
-"Aneena Thasneem C A","","false","true","false"
-"Arun Thomas","","false","true","false"
-"Aswanth P","","false","false","false"
-"Aswin K","","false","false","false"
-"Diyana Sherin K M","","false","false","false"
-"Farhana Sherin O C","","false","true","false"
-"Jayashree","","false","false","false"
-"Joel Thomas","","false","false","false"
-"Mariyammath Thabsira G","","false","false","false"
-"Masroora K","","false","false","false"
-"Muhammed Abbas","","false","false","false"
-"Muhammed Nuaim","","false","false","false"
-"Muhammed Sinan","","false","false","false"
-"Muhammed Uwais","","false","false","false"
-"Muhammed V J","","false","true","false"
-"Nasrin Gafoor K P","","false","false","false"
-"Preethi Sreejith","","false","false","true"
-"Rejina K","","false","true","false"
-"Rento Augustine","","false","false","false"
-"Sahla M","","false","false","false"
-"Sajad VP","","false","false","false"
-"Salman Faris","","false","false","false"
-"Shanid V V","","false","false","false"
-"Shibla P","","false","true","false"
-"Subhana Thasni TP","","false","false","false"
-"Thanveer","","false","false","false"
-"Vishnu","","false","false","false"
-"MATHEW V J","","true","false","true"
-"Arun","","true","false","false"
+Name,Role,OptOutAudio,OptOutCommunication,Coordinator
+Abhilash B R,member,false,false,false
+Amal Ramakrishnan,member,false,false,false
+Ananthu TD,member,false,false,false
+Anas A M,member,false,false,false
+Aneena Thasneem C A,member,false,true,false
+Arun Thomas,member,false,true,false
+Aswanth P,member,false,false,false
+Aswin K,member,false,false,false
+Diyana Sherin K M,member,false,false,false
+Farhana Sherin O C,member,false,true,false
+Jayashree,member,false,false,false
+Joel Thomas,member,false,false,false
+Mariyammath Thabsira G,member,false,false,false
+Masroora K,member,false,false,false
+Muhammed Abbas,member,false,false,false
+Muhammed Nuaim,member,false,false,false
+Muhammed Sinan,member,false,false,false
+Muhammed Uwais,member,false,false,false
+Muhammed V J,member,false,true,false
+Nasrin Gafoor K P,member,false,false,false
+Preethi Sreejith,member,false,false,true
+Rejina K,member,false,true,false
+Rento Augustine,member,false,false,false
+Sahla M,member,false,false,false
+Sajad VP,member,false,false,false
+Salman Faris,member,false,false,false
+Shanid V V,member,false,false,false
+Shibla P,member,false,true,false
+Subhana Thasni TP,member,false,false,false
+Thanveer,member,false,false,false
+Vishnu,member,false,false,false
+MATHEW V J,member,true,false,true
+Arun,member,true,false,false
 Afsal,Trainer,false,false,false
 Divya,Trainer,false,false,false
